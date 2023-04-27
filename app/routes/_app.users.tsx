@@ -1,20 +1,11 @@
 import { Box, Container, Heading } from "@chakra-ui/react";
-import NavBar from "./NavBar";
 import { Outlet, isRouteErrorResponse, useRouteError } from "@remix-run/react";
 
-export default function AppPage() {
+export default function UsersPage() {
   return (
-    <Box as="section">
-      <Container maxW="container.xl" as="header">
-        <NavBar />
-      </Container>
-
-      <Container maxW="container.xl" as="main">
-        <Outlet />
-      </Container>
-
-      <Container maxW="container.xl" as="footer"></Container>
-    </Box>
+    <Container>
+      <Outlet />
+    </Container>
   );
 }
 

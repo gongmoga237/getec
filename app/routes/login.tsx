@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
-import { safeRedirect, validateEmail } from "~/utils";
+import { safeRedirect, validateEmail } from "~/utils/app";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userId = await getUserId(request);

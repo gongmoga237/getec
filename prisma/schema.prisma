@@ -8,14 +8,19 @@ generator client {
 }
 
 model User {
-  id    String @id @default(cuid())
-  email String @unique
+  id        String   @id @default(cuid())
+  email     String   @unique
+  firstname String
+  lastname  String
+  admin     Boolean? @default(false)
+
+  doctor  Doctor?
+  patient Patient?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   password Password?
-  notes    Note[]
 }
 
 model Password {
@@ -25,14 +30,106 @@ model Password {
   userId String @unique
 }
 
-model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
+model Doctor {
+  id        String @id @default(cuid())
+  status    String
+  telephone String
+
+  specializations DoctorSpecializeOnSpecialisation[]
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+
+  consultation DoctorConsultPatient[]
+  hospitals    HospitalEmployDoctor[]
+}
+
+model Specialization {
+  id   String @id @default(cuid())
+  name String
+
+  doctors DoctorSpecializeOnSpecialisation[]
+}
+
+model DoctorSpecializeOnSpecialisation {
+  doctor   Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  doctorId String @unique
+
+  specialization   Specialization @relation(fields: [specializationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  specializationId String         @unique
+
+  @@id([specializationId, doctorId])
+}
+
+model Patient {
+  id        String @id @default(cuid())
+  telephone String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+
+  consultations DoctorConsultPatient[]
+}
+
+model DoctorConsultPatient {
+  id          String   @id @default(cuid())
+  consultAt   DateTime
+  consultedAt DateTime
+  description String
+
+  doctor   Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  doctorId String @unique
+
+  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  patientId String  @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HospitalEmployDoctor {
+  id String @id @default(cuid())
+
+  doctor   Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  doctorId String @unique
+
+  hospital   Hospital @relation(fields: [hospitalId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  hospitalId String   @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Hospital {
+  id String @id @default(cuid())
+
+  denomination String
+  phone        String
+  email        String
+  website      String
+
+  googleMapIdentifier String
+  mapIdentifier       String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+  doctors  HospitalEmployDoctor[]
+  services HospitalOfferServices[]
+}
+
+model Service {
+  id        String                  @id @default(cuid())
+  name      String
+  hospitals HospitalOfferServices[]
+}
+
+model HospitalOfferServices {
+  hospital   Hospital @relation(fields: [hospitalId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  hospitalId String   @unique
+
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  serviceId String  @unique
+
+  @@id([hospitalId, serviceId])
 }

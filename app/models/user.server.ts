@@ -9,16 +9,32 @@ export async function getUserById(id: User["id"]) {
   return prisma.user.findUnique({ where: { id } });
 }
 
+export async function getUsers() {
+  return prisma.user.findMany();
+}
+
 export async function getUserByEmail(email: User["email"]) {
   return prisma.user.findUnique({ where: { email } });
 }
 
-export async function createUser(email: User["email"], password: string) {
+export async function createUser({
+  admin = false,
+  email,
+  firstname,
+  lastname,
+  password,
+}: Pick<User, "email" | "firstname" | "lastname"> & {
+  password: string;
+  admin?: boolean;
+}) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   return prisma.user.create({
     data: {
       email,
+      firstname,
+      lastname,
+      admin,
       password: {
         create: {
           hash: hashedPassword,
