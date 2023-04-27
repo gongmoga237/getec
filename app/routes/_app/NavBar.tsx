@@ -11,8 +11,15 @@ import {
   PopoverContent,
   useColorModeValue,
   useDisclosure,
+  Button,
+  useColorMode,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import {
+  ChevronDownIcon,
+  ChevronRightIcon,
+  MoonIcon,
+  SunIcon,
+} from "@chakra-ui/icons";
 import { Logo } from "~/components/icons";
 import {
   NavBarMenuButton,
@@ -21,9 +28,11 @@ import {
 } from "~/components/buttons";
 import { NAV_ITEMS, NavItem } from "./naItems";
 import { NavLink } from "@remix-run/react";
+import UserMenu from "./UserMenu";
 
 export default function NavBar() {
   const { isOpen, onToggle } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <Box as="nav">
@@ -60,11 +69,13 @@ export default function NavBar() {
           direction={"row"}
           spacing={6}
         >
-          <SignInButton />
+          <Button onClick={toggleColorMode}>
+            {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          </Button>
 
-          <Box display={{ base: "none", md: "inline-flex" }}>
-            <SignUpButton />
-          </Box>
+          <SignUpButton />
+
+          <UserMenu />
         </Stack>
       </Flex>
 
@@ -77,7 +88,7 @@ export default function NavBar() {
 
 const DesktopNav = () => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
-  const linkHoverColor = useColorModeValue("gray.800", "white");
+  const linkHoverColor = useColorModeValue("brand.700", "brand.300");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
 
   return (
@@ -92,6 +103,7 @@ const DesktopNav = () => {
                 role="group"
                 p={2}
                 fontSize="sm"
+                _active={{ color: linkHoverColor }}
                 fontWeight={500}
                 color={linkColor}
                 _hover={{

@@ -1,6 +1,7 @@
-import { Box } from "@chakra-ui/react";
 import { V2_MetaFunction } from "@remix-run/react";
 import { APP_NAME } from "~/constants/app";
+import { ClientOnly } from "remix-utils";
+import PageContent from "./PageContent.client";
 
 export const meta: V2_MetaFunction = () => [
   {
@@ -9,5 +10,5 @@ export const meta: V2_MetaFunction = () => [
 ];
 
 export default function AppIndexPage() {
-  return <Box>AppIndexPage</Box>;
+  return <ClientOnly fallback={null}>{() => <PageContent />}</ClientOnly>;
 }

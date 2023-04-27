@@ -6,7 +6,7 @@ export default function SignUpButton() {
       as={"a"}
       fontSize="sm"
       fontWeight={600}
-      colorScheme="teal"
+      colorScheme="orange"
       href={"#"}
     >
       Créez un compte

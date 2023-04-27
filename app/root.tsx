@@ -12,12 +12,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  V2_MetaFunction,
   isRouteErrorResponse,
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
 import { useMemo } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import { theme } from "./theme";
 
 const DEFAULT_COLOR_MODE: "dark" | "light" | null = "dark";
@@ -34,6 +35,8 @@ function getColorMode(cookies: string) {
 export const loader: LoaderFunction = async ({ request }) => {
   return request.headers.get("cookie") ?? "";
 };
+
+const queryClient = new QueryClient();
 
 function Document({
   children,
@@ -70,7 +73,9 @@ function Document({
           theme={theme}
           colorModeManager={cookieStorageManagerSSR(cookies ?? "")}
         >
-          {children}
+          <QueryClientProvider client={queryClient}>
+            {children}
+          </QueryClientProvider>
         </ChakraProvider>
         <ScrollRestoration />
         <Scripts />

@@ -19,3 +19,7 @@ export const PROFILE = "/profile";
 
 // Athentication
 export const LOGIN = "/login";
+
+// Hospital
+export const HOSPITAL_DETAILS = "/hospitals/";
+export const HOSPITAL_MAP = "/hospitals/map/";
