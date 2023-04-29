@@ -23,7 +23,7 @@ export interface Hospital {
   position?: [number, number];
   services: string[];
   doctors: string[];
-  image: string;
+  image: any;
 }
 
 export interface Article {
