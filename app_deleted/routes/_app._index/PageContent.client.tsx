@@ -7,13 +7,11 @@ export default function PageContent() {
   const watch = false;
 
   const { latitude, longitude, error } = usePosition(watch);
-
-  if (!latitude || !longitude || error)
-    throw new Error("An error occured when getting user position.");
+  if (error) throw error;
 
   return (
     <Box as="section">
-      <Hospitals position={[latitude, longitude]} />
+      {latitude && longitude && <Hospitals position={[latitude, longitude]} />}
     </Box>
   );
 }

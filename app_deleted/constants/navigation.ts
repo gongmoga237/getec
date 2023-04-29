@@ -1,7 +1,7 @@
 export const HOME = "/";
 
 // Rubrique patient
-export const CONSULTATION_SURVEILLANCE = "/consultation";
+export const CONSULTATION_SURVEILLANCE = "/patient/consultations";
 export const LABORATOIRE_IMAGERIE = "/patient/examens";
 export const PHARMACIE = "/patient/pharmacies";
 export const ADD_PATIENT = "/patient/new";

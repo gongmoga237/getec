@@ -93,60 +93,55 @@ const DesktopNav = () => {
 
   return (
     <Stack direction={"row"} spacing={3} align="center">
-      {NAV_ITEMS.map((navItem) => {
-        const linkProps = !navItem.children
-          ? { to: navItem.href, as: NavLink }
-          : {};
+      {NAV_ITEMS.map((navItem) => (
+        <Box key={navItem.label}>
+          <Popover trigger={"hover"} placement={"bottom-start"}>
+            <PopoverTrigger>
+              <Link
+                as={NavLink}
+                to={navItem.href ?? "#"}
+                role="group"
+                p={2}
+                fontSize="sm"
+                _active={{ color: linkHoverColor }}
+                fontWeight={500}
+                color={linkColor}
+                _hover={{
+                  textDecoration: "none",
+                  color: linkHoverColor,
+                }}
+              >
+                {navItem.label}
+                {navItem.children && (
+                  <Icon
+                    as={ChevronDownIcon}
+                    transition={"all .25s ease-in-out"}
+                    _groupHover={{ transform: "rotate(-360deg)" }}
+                    ml={1}
+                  />
+                )}
+              </Link>
+            </PopoverTrigger>
 
-        return (
-          <Box key={navItem.label}>
-            <Popover trigger={"hover"} placement={"bottom-start"}>
-              <PopoverTrigger>
-                <Link
-                  {...linkProps}
-                  role="group"
-                  p={2}
-                  fontSize="sm"
-                  fontWeight={500}
-                  color={linkColor}
-                  _activeLink={{ color: linkHoverColor }}
-                  _hover={{
-                    textDecoration: "none",
-                    color: linkHoverColor,
-                  }}
-                >
-                  {navItem.label}
-                  {navItem.children && (
-                    <Icon
-                      as={ChevronDownIcon}
-                      transition={"all .25s ease-in-out"}
-                      _groupHover={{ transform: "rotate(-360deg)" }}
-                      ml={1}
-                    />
-                  )}
-                </Link>
-              </PopoverTrigger>
-
-              {navItem.children && (
-                <PopoverContent
-                  border={0}
-                  boxShadow={"xl"}
-                  bg={popoverContentBgColor}
-                  p={4}
-                  rounded={"xl"}
-                  minW={"sm"}
-                >
-                  <Stack>
-                    {navItem.children.map((child) => (
-                      <DesktopSubNav key={child.label} {...child} />
-                    ))}
-                  </Stack>
-                </PopoverContent>
-              )}
-            </Popover>
-          </Box>
-        );
-      })}
+            {navItem.children && (
+              <PopoverContent
+                border={0}
+                boxShadow={"xl"}
+                bg={popoverContentBgColor}
+                p={4}
+                rounded={"xl"}
+                minW={"sm"}
+              >
+                <Stack>
+                  {navItem.children.map((child) => (
+                    <DesktopSubNav key={child.label} {...child} />
+                  ))}
+                </Stack>
+              </PopoverContent>
+            )}
+          </Popover>
+        </Box>
+      ))}
     </Stack>
   );
 };

@@ -24,16 +24,15 @@ import {
   PopoverArrow,
 } from "@chakra-ui/react";
 import { Link } from "@remix-run/react";
-import { Hospital } from "~/types";
+import { Hospital, Pharmacie } from "~/types";
 
 export default function HospitalCard({
-  doctors,
+  availableDrugs,
   email,
   image,
   name,
-  services,
   telephone,
-}: Hospital) {
+}: Pharmacie) {
   return (
     <Card maxW="sm">
       <CardBody>
@@ -69,7 +68,7 @@ export default function HospitalCard({
             <PopoverContent>
               <PopoverArrow />
               <PopoverHeader>
-                Détails sur l'hopital <Mark fontWeight="bold">{name}</Mark>
+                Détails sur la pharmacie <Mark fontWeight="bold">{name}</Mark>
               </PopoverHeader>
               <PopoverBody>
                 <VStack p="6" gap="1" placeItems="flex-start" pl="10">
@@ -84,28 +83,13 @@ export default function HospitalCard({
 
                   <Box>
                     <Text fontSize="lg" fontWeight="bold">
-                      Services offert
+                      Les médicaments disponibles
                     </Text>
                     <UnorderedList>
-                      {services.map((service, index) => {
+                      {availableDrugs.map((drug, index) => {
                         return (
                           <ListItem key={"Hospital_service_card" + index}>
-                            <Text>{service}</Text>
-                          </ListItem>
-                        );
-                      })}
-                    </UnorderedList>
-                  </Box>
-
-                  <Box>
-                    <Text fontSize="lg" fontWeight="bold">
-                      Médécin
-                    </Text>
-                    <UnorderedList>
-                      {doctors.map((doctor, index) => {
-                        return (
-                          <ListItem key={"hospital_doctor_card" + index}>
-                            <Text>{doctor}</Text>
+                            <Text>{drug}</Text>
                           </ListItem>
                         );
                       })}
